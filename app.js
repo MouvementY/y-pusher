@@ -15,10 +15,8 @@ if (env === "production") {
 
 	// Redis
 	var redisConf = url.parse(process.env.REDISCLOUD_URL),
-			redisAuth = (redisConf.auth || '').split(':'),
-			redisPass = redisAuth[1];
-
-	console.log(redisConf, redisPass);
+		redisAuth = (redisConf.auth || '').split(':'),
+		redisPass = redisAuth[1];
 
 	redisClient = redis.createClient(redisConf.port, redisConf.hostname, {
 		no_ready_check: true,
@@ -33,7 +31,7 @@ if (env === "production") {
 
 } else {
 
-	// Crash an error
+	// Raise an error
 	console.error("Unknown env '" + env + "'");
 }
 
@@ -43,6 +41,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Redis pub/sub
 redisClient.psubscribe("notification *");
 redisClient.on("pmessage", function(pattern, channel, message) {
 	// broadcast the notification
@@ -58,6 +57,7 @@ app.get("/", function(req, res){
 });
 
 io.on("connection", function(socket){
+	// silence is golden
 });
 
 var port = process.env.PORT || 3000;
