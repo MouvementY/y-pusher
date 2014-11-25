@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "y-pusher",
+  "description": "Y realtime server",
+  "version": "0.1.0",
+  "author": "Pierre Dulac",
+  "dependencies": {
+    "redis": ">= 0.8.2",
+    "socket.io": "^1.2.1",
+    "express": "^4.10.3"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}
