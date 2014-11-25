@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var http = require("http").Server(app);
+var raven = require("raven");
 var io = require("socket.io")(http);
 var redis = require("redis");
 var env = process.env.NODE_ENV || "development";
@@ -8,6 +9,9 @@ var url = require("url");
 
 var redisClient = null;
 if (env === "production") {
+
+	// Sentry
+	app.use(raven.middleware.express(process.env.RAVEN_DNS));
 
 	// Redis
 	var redisConf = url.parse(process.env.REDISCLOUD_URL),
